@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <title>Simón dice</title>
 </head>
-<body>
+<body style="background-color: #262120;">
+
+    <!-- Barra principal -->
+<div id="principal">
+    <div class="container">
+        <div class="row my-2">
+          <div class="col-7 border border-dark text-center" style="background-color: #c2bbb9;">
+            Toca 'Empezar' para jugar
+          </div>
+          <div class="col-3 mx-2 text-white text-center" style="background-color: #FF5733;">
+            Ronda # : 
+          </div>
+          <div class="col">
+            <button type="button" class="btn border text-white" style="background-color: #2C7CC2;">EMPEZAR</button>
+        </div>
+        </div>
+      </div>
+    <!-- Tablero -->
+    <div class="container p-5">
+        <div class="row">
+          <div class="col bg-danger" style="height: 150px;">A</div>
+          <div class="col ms-3 bg-primary" style="height: 150px;">B</div>
+        </div>
+        <div class="row">
+          <div class="col bg-warning gy-3" style="height: 150px;">C</div>
+          <div class="col  ms-3 bg-success gy-3" style="height: 150px;">D</div>
+        </div>
+      </div>
+</div>
     
 </body>
 </html>
