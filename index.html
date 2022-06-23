@@ -13,29 +13,30 @@
 <div id="principal">
     <div class="container">
         <div class="row my-2">
-          <div class="col-7 border border-dark text-center" style="background-color: #c2bbb9;">
+          <div class="col-7 text-center p-3" style="background-color: #c2bbb9;">
             Toca 'Empezar' para jugar
           </div>
-          <div class="col-3 mx-2 text-white text-center" style="background-color: #FF5733;">
+          <div class="col-3 mx-2 text-white text-center p-3" style="background-color: #FF5733;">
             Ronda # : 
           </div>
           <div class="col">
-            <button type="button" class="btn border text-white" style="background-color: #2C7CC2;">EMPEZAR</button>
+            <button type="button" class="btn border text-white p-3" style="background-color: #2C7CC2;" id="boton-empezar">EMPEZAR</button>
         </div>
         </div>
       </div>
     <!-- Tablero -->
-    <div class="container p-5">
+    <div class="container p-5" id="tablero">
         <div class="row">
-          <div class="col bg-danger" style="height: 150px;">A</div>
-          <div class="col ms-3 bg-primary" style="height: 150px;">B</div>
+          <div class="col bg-danger" style="height: 150px; opacity: 0.5;"  id="cuadro-A">A</div>
+          <div class="col ms-3 bg-primary" style="height: 150px; opacity: 0.5" id="cuadro-B">B</div>
         </div>
         <div class="row">
-          <div class="col bg-warning gy-3" style="height: 150px;">C</div>
-          <div class="col  ms-3 bg-success gy-3" style="height: 150px;">D</div>
+          <div class="col bg-warning gy-3" style="height: 150px; opacity: 0.5" id="cuadro-C">C</div>
+          <div class="col  ms-3 bg-success gy-3" style="height: 150px; opacity: 0.5" id="cuadro-D">D</div>
         </div>
       </div>
 </div>
-    
+
+<script src="./main.js"></script>
 </body>
 </html>
