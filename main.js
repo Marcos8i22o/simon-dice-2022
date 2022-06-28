@@ -8,21 +8,17 @@ const $cuadro4 = document.querySelector("#cuadro-D");
 
 let secuenciaMaquina = [];
 let secuenciaJugador = [];
-let ronda = 0;
-let idIntervalo = 0;
+
+
 /* Turno Máquina */
 
 $botonEmpezar.onclick = comenzarJuego;
 
-
 function comenzarJuego() {
-    manejarRonda();
-    if(avanzarRonda() > 0) {
-        idIntervalo = setInterval(function(){
-            manejarRonda();
-            avanzarRonda();
-        },secuenciaMaquina.length * 3000)
-    }
+  
+  manejarRonda();
+  habilitarTablero();
+
 }
 
 function manejarRonda() {
@@ -45,22 +41,41 @@ function manejarRonda() {
   }
 
   habilitarInputJugador($tablero);
-  manejarRondaJugador();
 }
 
-function manejarRondaJugador() {
-  let cantidadDeClicks = 0;
-  for (let i = 0; i < secuenciaMaquina.length; i++) {
-    $tablero.onclick = function (Event) {
-      secuenciaJugador.push(Event.target);
-      setTimeout(function () {
-        resaltarCuadro(secuenciaJugador, cantidadDeClicks);
-        opacarCuadro(secuenciaJugador, cantidadDeClicks);
-        cantidadDeClicks++;
-      }, cantidadDeClicks * 500);
-    };
+function manejarTurnoUsuario(Event) {
+  const cuadro = Event.target;
+  secuenciaJugador.push(cuadro);
+  resaltarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
+  opacarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
+
+  if (secuenciaMaquina[secuenciaJugador.length - 1] !== cuadro) {
+    console.log("PERDIÓ");
+    secuenciaMaquina = [];
+  } else if (secuenciaMaquina.length === secuenciaJugador.length) {
+    setTimeout(function () {
+      manejarRonda();
+    }, secuenciaMaquina.length * 1000);
   }
 }
+
+function habilitarTablero() {
+  $tablero.onclick = manejarTurnoUsuario;
+}
+
+// function manejarRondaJugador() {
+//   let cantidadDeClicks = 0;
+//   for (let i = 0; i < secuenciaMaquina.length; i++) {
+//     //$tablero.onclick = function (Event) {
+//     //secuenciaJugador.push(Event.target);
+//     setTimeout(function () {
+//       resaltarCuadro(secuenciaJugador, cantidadDeClicks);
+//       opacarCuadro(secuenciaJugador, cantidadDeClicks);
+//       cantidadDeClicks++;
+//     }, cantidadDeClicks * 500);
+//   }
+//   //}
+// }
 
 function avanzarRonda() {
   setTimeout(function () {
