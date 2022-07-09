@@ -8,21 +8,14 @@ const $cuadro4 = document.querySelector("#cuadro-D");
 
 let secuenciaMaquina = [];
 let secuenciaJugador = [];
-let ronda = 0;
-let idIntervalo = 0;
+let ronda = 1;
+
 /* Turno Máquina */
 
 $botonEmpezar.onclick = comenzarJuego;
 
-
 function comenzarJuego() {
-    manejarRonda();
-    if(avanzarRonda() > 0) {
-        idIntervalo = setInterval(function(){
-            manejarRonda();
-            avanzarRonda();
-        },secuenciaMaquina.length * 3000)
-    }
+  manejarRonda();
 }
 
 function manejarRonda() {
@@ -39,45 +32,62 @@ function manejarRonda() {
 
   for (let i = 0; i < secuenciaMaquina.length; i++) {
     setTimeout(function () {
+      actualizarEstado("Turno de la máquina", `Ronda #: ${ronda}`);
       resaltarCuadro(secuenciaMaquina, i);
       opacarCuadro(secuenciaMaquina, i);
     }, i * 500);
   }
 
-  habilitarInputJugador($tablero);
-  manejarRondaJugador();
+  setTimeout(function(){
+    actualizarEstado("Su turno", `Ronda #: ${ronda}`);
+  },secuenciaMaquina.length * 500)
+
+  habilitarTablero();
+  secuenciaJugador = [];
+
+  return secuenciaJugador;
 }
 
-function manejarRondaJugador() {
-  let cantidadDeClicks = 0;
-  for (let i = 0; i < secuenciaMaquina.length; i++) {
-    $tablero.onclick = function (Event) {
-      secuenciaJugador.push(Event.target);
-      setTimeout(function () {
-        resaltarCuadro(secuenciaJugador, cantidadDeClicks);
-        opacarCuadro(secuenciaJugador, cantidadDeClicks);
-        cantidadDeClicks++;
-      }, cantidadDeClicks * 500);
-    };
-  }
-}
+function manejarTurnoUsuario(Event) {
+  secuenciaJugador.push(Event.target);
+  resaltarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
+  opacarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
 
-function avanzarRonda() {
   setTimeout(function () {
-    if (compararJugadas(secuenciaJugador, secuenciaMaquina)) {
-      ronda++;
-    } else {
-      console.log("FIN JUEGO");
+    if (
+      secuenciaMaquina[secuenciaJugador.length - 1] !==
+        secuenciaJugador[secuenciaJugador.length - 1] ||
+      secuenciaMaquina.length === 0
+    ) {
+      actualizarEstado(
+        "¡Ha perdido! Presione EMPEZAR para volver a jugar",
+        "Ronda #: --"
+      );
+      bloquearInputJugador($tablero);
+      secuenciaJugador = [];
       secuenciaMaquina = [];
-      ronda = 0;
-      clearInterval(idIntervalo);
+      ronda = 1;
+    } else if (secuenciaMaquina.length === secuenciaJugador.length) {
+      manejarRonda();
+      ronda++;
     }
-  }, secuenciaMaquina.length * 1000);
+  }, secuenciaMaquina.length * 700);
+}
 
-  return ronda;
+function habilitarTablero() {
+  habilitarInputJugador($tablero);
+  $tablero.onclick = manejarTurnoUsuario;
 }
 
 /* Declaración de funciones */
+function actualizarEstado(mensaje, ronda) {
+  const $fraseDeEstado = document.querySelector("#frase-de-estado");
+  $fraseDeEstado.textContent = mensaje;
+
+  const $ronda = document.querySelector("#ronda");
+  $ronda.textContent = ronda;
+}
+
 function elegirIndice() {
   const numeroElegido = Math.floor(Math.random() * 4) + 1;
 
@@ -131,3 +141,4 @@ function elegirCuadro(
 
   return secuencia;
 }
+
