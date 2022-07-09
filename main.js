@@ -141,3 +141,4 @@ function elegirCuadro(
 
   return secuencia;
 }
+
