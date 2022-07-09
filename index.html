@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <title>Simón dice</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <title>Simón dice</title>
 </head>
+
 <body style="background-color: #262120;">
 
-    <!-- Barra principal -->
-<div id="principal">
+  <!-- Barra principal -->
+  <div id="principal">
     <div class="container">
-        <div class="row my-2">
-          <div class="col-7 text-center p-3" style="background-color: #c2bbb9;" id="frase-de-estado">
-            Toca 'Empezar' para jugar
-          </div>
-          <div class="col-3 mx-2 text-white text-center p-3" style="background-color: #FF5733;" id="ronda">
-            Ronda # : --
-          </div>
-          <div class="col">
-            <button type="button" class="btn border text-white p-3" style="background-color: #2C7CC2;" id="boton-empezar">EMPEZAR</button>
+      <div class="row my-2">
+        <div class="col-7 text-center p-3" style="background-color: #c2bbb9;" id="frase-de-estado">
+          Toca 'Empezar' para jugar
         </div>
+        <div class="col-3 mx-2 text-white text-center p-3" style="background-color: #FF5733;" id="ronda">
+          Ronda # : --
+        </div>
+        <div class="col">
+          <button type="button" class="btn border text-white p-3" style="background-color: #2C7CC2;"
+            id="boton-empezar">EMPEZAR</button>
         </div>
       </div>
+    </div>
     <!-- Tablero -->
     <div class="container p-5" id="tablero">
-        <div class="row">
-          <div class="col bg-danger" style="height: 150px; opacity: 0.5;"  id="cuadro-A">A</div>
-          <div class="col ms-3 bg-primary" style="height: 150px; opacity: 0.5" id="cuadro-B">B</div>
-        </div>
-        <div class="row">
-          <div class="col bg-warning gy-3" style="height: 150px; opacity: 0.5" id="cuadro-C">C</div>
-          <div class="col  ms-3 bg-success gy-3" style="height: 150px; opacity: 0.5" id="cuadro-D">D</div>
-        </div>
+      <div class="row">
+        <div class="col bg-danger" style="height: 150px; opacity: 0.5;" id="cuadro-A">A</div>
+        <div class="col ms-3 bg-primary" style="height: 150px; opacity: 0.5" id="cuadro-B">B</div>
       </div>
-</div>
+      <div class="row">
+        <div class="col bg-warning gy-3" style="height: 150px; opacity: 0.5" id="cuadro-C">C</div>
+        <div class="col  ms-3 bg-success gy-3" style="height: 150px; opacity: 0.5" id="cuadro-D">D</div>
+      </div>
+    </div>
+  </div>
 
-<script src="./main.js"></script>
+  <script src="./main.js"></script>
 </body>
+
 </html>
