@@ -40,9 +40,9 @@ function manejarRonda() {
 
   setTimeout(function(){
     actualizarEstado("Su turno", `Ronda #: ${ronda}`);
+    habilitarTablero();
   },secuenciaMaquina.length * 500)
 
-  habilitarTablero();
   secuenciaJugador = [];
 
   return secuenciaJugador;
