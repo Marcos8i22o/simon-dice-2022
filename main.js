@@ -38,11 +38,11 @@ function manejarRonda() {
     }, i * 500);
   }
 
-  setTimeout(function(){
+  setTimeout(function () {
     actualizarEstado("Su turno", `Ronda #: ${ronda}`);
-  },secuenciaMaquina.length * 500)
+    habilitarTablero();
+  }, secuenciaMaquina.length * 500);
 
-  habilitarTablero();
   secuenciaJugador = [];
 
   return secuenciaJugador;
@@ -141,4 +141,3 @@ function elegirCuadro(
 
   return secuencia;
 }
-
