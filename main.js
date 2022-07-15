@@ -1,10 +1,7 @@
 const $botonEmpezar = document.querySelector("#boton-empezar");
 const $tablero = document.querySelector("#tablero");
 
-const $cuadro1 = document.querySelector("#cuadro-A");
-const $cuadro2 = document.querySelector("#cuadro-B");
-const $cuadro3 = document.querySelector("#cuadro-C");
-const $cuadro4 = document.querySelector("#cuadro-D");
+const $cuadros = document.querySelectorAll(".cuadro");
 
 let secuenciaMaquina = [];
 let secuenciaJugador = [];
@@ -21,27 +18,22 @@ function comenzarJuego() {
 function manejarRonda() {
   bloquearInputJugador($tablero);
   const indiceCuadro = elegirIndice();
-  elegirCuadro(
-    secuenciaMaquina,
-    indiceCuadro,
-    $cuadro1,
-    $cuadro2,
-    $cuadro3,
-    $cuadro4
-  );
+  elegirCuadro(secuenciaMaquina, indiceCuadro, $cuadros);
+
+  const TIEMPO_DISPONIBLE = 500;
 
   for (let i = 0; i < secuenciaMaquina.length; i++) {
     setTimeout(function () {
       actualizarEstado("Turno de la máquina", `Ronda #: ${ronda}`);
       resaltarCuadro(secuenciaMaquina, i);
       opacarCuadro(secuenciaMaquina, i);
-    }, i * 500);
+    }, i * TIEMPO_DISPONIBLE);
   }
 
-  setTimeout(function(){
+  setTimeout(function () {
     actualizarEstado("Su turno", `Ronda #: ${ronda}`);
     habilitarTablero();
-  },secuenciaMaquina.length * 500)
+  }, secuenciaMaquina.length * TIEMPO_DISPONIBLE);
 
   secuenciaJugador = [];
 
@@ -50,8 +42,10 @@ function manejarRonda() {
 
 function manejarTurnoUsuario(Event) {
   secuenciaJugador.push(Event.target);
-  resaltarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
-  opacarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
+  const indiceCuadroJugador = secuenciaJugador.length - 1;
+
+  resaltarCuadro(secuenciaJugador, indiceCuadroJugador);
+  opacarCuadro(secuenciaJugador, indiceCuadroJugador);
 
   setTimeout(function () {
     if (
@@ -89,7 +83,7 @@ function actualizarEstado(mensaje, ronda) {
 }
 
 function elegirIndice() {
-  const numeroElegido = Math.floor(Math.random() * 4) + 1;
+  const numeroElegido = Math.floor(Math.random() * $cuadros.length) + 1;
 
   return numeroElegido;
 }
@@ -121,24 +115,11 @@ function compararJugadas(secuenciaJugador, secuenciaMaquina) {
   return true;
 }
 
-function elegirCuadro(
-  secuencia,
-  indiceCuadro,
-  cuadro1,
-  cuadro2,
-  cuadro3,
-  cuadro4
-) {
-  if (indiceCuadro === 1) {
-    secuencia.push(cuadro1);
-  } else if (indiceCuadro === 2) {
-    secuencia.push(cuadro2);
-  } else if (indiceCuadro === 3) {
-    secuencia.push(cuadro3);
-  } else {
-    secuencia.push(cuadro4);
+function elegirCuadro(secuencia, indiceCuadro, $cuadros) {
+  for (let i = 0; i < $cuadros.length; i++) {
+    if (indiceCuadro === i + 1) {
+      secuencia.push($cuadros[i + 1]);
+    }
   }
-
   return secuencia;
 }
-
