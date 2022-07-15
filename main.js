@@ -1,85 +1,89 @@
 const $botonEmpezar = document.querySelector("#boton-empezar");
 const $tablero = document.querySelector("#tablero");
 
-const $cuadro1 = document.querySelector("#cuadro-A");
-const $cuadro2 = document.querySelector("#cuadro-B");
-const $cuadro3 = document.querySelector("#cuadro-C");
-const $cuadro4 = document.querySelector("#cuadro-D");
+const $cuadros = document.querySelectorAll(".cuadro");
 
 let secuenciaMaquina = [];
 let secuenciaJugador = [];
-let ronda = 0;
-let idIntervalo = 0;
+let ronda = 1;
+
 /* Turno Máquina */
 
 $botonEmpezar.onclick = comenzarJuego;
 
-
 function comenzarJuego() {
-    manejarRonda();
-    if(avanzarRonda() > 0) {
-        idIntervalo = setInterval(function(){
-            manejarRonda();
-            avanzarRonda();
-        },secuenciaMaquina.length * 3000)
-    }
+  manejarRonda();
 }
 
 function manejarRonda() {
   bloquearInputJugador($tablero);
   const indiceCuadro = elegirIndice();
-  elegirCuadro(
-    secuenciaMaquina,
-    indiceCuadro,
-    $cuadro1,
-    $cuadro2,
-    $cuadro3,
-    $cuadro4
-  );
+  elegirCuadro(secuenciaMaquina, indiceCuadro, $cuadros);
+
+  const TIEMPO_DISPONIBLE = 500;
 
   for (let i = 0; i < secuenciaMaquina.length; i++) {
     setTimeout(function () {
+      actualizarEstado("Turno de la máquina", `Ronda #: ${ronda}`);
       resaltarCuadro(secuenciaMaquina, i);
       opacarCuadro(secuenciaMaquina, i);
-    }, i * 500);
+    }, i * TIEMPO_DISPONIBLE);
   }
 
-  habilitarInputJugador($tablero);
-  manejarRondaJugador();
-}
-
-function manejarRondaJugador() {
-  let cantidadDeClicks = 0;
-  for (let i = 0; i < secuenciaMaquina.length; i++) {
-    $tablero.onclick = function (Event) {
-      secuenciaJugador.push(Event.target);
-      setTimeout(function () {
-        resaltarCuadro(secuenciaJugador, cantidadDeClicks);
-        opacarCuadro(secuenciaJugador, cantidadDeClicks);
-        cantidadDeClicks++;
-      }, cantidadDeClicks * 500);
-    };
-  }
-}
-
-function avanzarRonda() {
   setTimeout(function () {
-    if (compararJugadas(secuenciaJugador, secuenciaMaquina)) {
-      ronda++;
-    } else {
-      console.log("FIN JUEGO");
-      secuenciaMaquina = [];
-      ronda = 0;
-      clearInterval(idIntervalo);
-    }
-  }, secuenciaMaquina.length * 1000);
+    actualizarEstado("Su turno", `Ronda #: ${ronda}`);
+    habilitarTablero();
+  }, secuenciaMaquina.length * TIEMPO_DISPONIBLE);
 
-  return ronda;
+  secuenciaJugador = [];
+
+  return secuenciaJugador;
+}
+
+function manejarTurnoUsuario(Event) {
+  secuenciaJugador.push(Event.target);
+  const indiceCuadroJugador = secuenciaJugador.length - 1;
+
+  resaltarCuadro(secuenciaJugador, indiceCuadroJugador);
+  opacarCuadro(secuenciaJugador, indiceCuadroJugador);
+
+  setTimeout(function () {
+    if (
+      secuenciaMaquina[secuenciaJugador.length - 1] !==
+        secuenciaJugador[secuenciaJugador.length - 1] ||
+      secuenciaMaquina.length === 0
+    ) {
+      actualizarEstado(
+        "¡Ha perdido! Presione EMPEZAR para volver a jugar",
+        "Ronda #: --"
+      );
+      bloquearInputJugador($tablero);
+      secuenciaJugador = [];
+      secuenciaMaquina = [];
+      ronda = 1;
+    } else if (secuenciaMaquina.length === secuenciaJugador.length) {
+      manejarRonda();
+      ronda++;
+    }
+  }, secuenciaMaquina.length * 700);
+}
+
+function habilitarTablero() {
+  habilitarInputJugador($tablero);
+  $tablero.onclick = manejarTurnoUsuario;
 }
 
 /* Declaración de funciones */
+function actualizarEstado(mensaje, ronda) {
+  const $fraseDeEstado = document.querySelector("#frase-de-estado");
+  $fraseDeEstado.textContent = mensaje;
+
+  const $ronda = document.querySelector("#ronda");
+  $ronda.textContent = ronda;
+}
+
 function elegirIndice() {
-  const numeroElegido = Math.floor(Math.random() * 4) + 1;
+  const numeroElegido = Math.floor(Math.random() * $cuadros.length) + 1;
 
   return numeroElegido;
 }
@@ -111,23 +115,11 @@ function compararJugadas(secuenciaJugador, secuenciaMaquina) {
   return true;
 }
 
-function elegirCuadro(
-  secuencia,
-  indiceCuadro,
-  cuadro1,
-  cuadro2,
-  cuadro3,
-  cuadro4
-) {
-  if (indiceCuadro === 1) {
-    secuencia.push(cuadro1);
-  } else if (indiceCuadro === 2) {
-    secuencia.push(cuadro2);
-  } else if (indiceCuadro === 3) {
-    secuencia.push(cuadro3);
-  } else {
-    secuencia.push(cuadro4);
+function elegirCuadro(secuencia, indiceCuadro, $cuadros) {
+  for (let i = 0; i < $cuadros.length; i++) {
+    if (indiceCuadro === i + 1) {
+      secuencia.push($cuadros[i + 1]);
+    }
   }
-
   return secuencia;
 }
