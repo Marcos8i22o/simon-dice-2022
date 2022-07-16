@@ -43,8 +43,10 @@ function manejarRonda() {
 function manejarTurnoUsuario(Event) {
   secuenciaJugador.push(Event.target);
 
-  resaltarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
-  opacarCuadro(secuenciaJugador, secuenciaJugador.length - 1);
+  const indiceCuadroJugador = secuenciaJugador.length - 1;
+
+  resaltarCuadro(secuenciaJugador, indiceCuadroJugador);
+  opacarCuadro(secuenciaJugador, indiceCuadroJugador);
 
   setTimeout(function () {
     if (
@@ -115,9 +117,9 @@ function compararJugadas(secuenciaJugador, secuenciaMaquina) {
 }
 
 function elegirCuadro(secuencia, indiceCuadro, $cuadros) {
-  for (let i = 0; i < $cuadros.length; i++) {
-    if (indiceCuadro === i + 1) {
-      secuencia.push($cuadros[indiceCuadro]);
+  for (let i = 1; i <= $cuadros.length; i++) {
+    if (indiceCuadro === i) {
+      secuencia.push($cuadros[indiceCuadro - 1]);
     }
   }
   return secuencia;
